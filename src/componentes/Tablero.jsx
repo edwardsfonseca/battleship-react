@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import Casilla from './Casilla.jsx'
+import '../style/tablero.css'
 
 function Tablero() {
 //-//-// Iniciamos con la funcion declarando su estado

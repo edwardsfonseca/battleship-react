@@ -1,5 +1,5 @@
 import React from 'react'
-
+import '../style/casilla.css'
 function Casilla({ status, handleClick }) {
     let className = "cell";
     if (status === 1) {
@@ -9,7 +9,7 @@ function Casilla({ status, handleClick }) {
     } else if (status === 3) {
         className += " miss";
     }
-    return <div className={className} onClick={handleClick}>2</div>;
+    return <div className={className} onClick={handleClick}></div>;
 }
 
 export default Casilla
