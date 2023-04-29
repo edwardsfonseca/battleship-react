@@ -81,13 +81,13 @@ function Tablero() {
     return newBoard;
   }
 function startGame(){
-  const newGameBoard = setAddShipsManually()
-  setGameBoard(newGameBoard)
+  setAddShipsManually(false)
+
 }
   // Con esta llamamos a la funcion randon con su nuevo estado y la aplicamos a un boton
-  function handleRandomClick() {
+  /* function handleRandomClick() {
     setGameBoard(generateRandomBoard());
-  }
+  } */
 
   function handleManualClick() {
     setAddShipsManually(true);
