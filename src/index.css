@@ -18,7 +18,7 @@
   border: 1px solid black;
 }
  
-.ship:hover {
+.ship{
   background-color: gray;
   
 }
@@ -28,7 +28,7 @@
 }
 
 .miss {
-  background-color: #1c8db1;
+  background-color: #1cb126;
 }
 .button-p-2{
   display: flex;

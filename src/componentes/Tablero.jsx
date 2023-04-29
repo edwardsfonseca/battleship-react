@@ -17,6 +17,7 @@ function Tablero() {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [1, 1, 1, 1, 0, 0, 0, 0, 0, 0]],
     generateRandomBoard());
+  const [addShipsManually, setAddShipsManually] = useState(false)
 
   // funcion fire
 
@@ -67,7 +68,7 @@ function Tablero() {
       const row = [];
       for (let j = 0; j < 10; j++) {
         // Generar un número aleatorio entre 0 y 1
-        const random = Math.floor(Math.random() * 2);
+        const random = Math.floor(Math.random() *2);
         // el número es 1 y la celda no está ocupada, colocar un barco
         if (random === 0 && row.indexOf(1) === -1) {
           row.push(1); // lo devuelve a row con nuevo valor
@@ -79,29 +80,55 @@ function Tablero() {
     }
     return newBoard;
   }
-
+function startGame(){
+  const newGameBoard = setAddShipsManually()
+  setGameBoard(newGameBoard)
+}
   // Con esta llamamos a la funcion randon con su nuevo estado y la aplicamos a un boton
   function handleRandomClick() {
     setGameBoard(generateRandomBoard());
   }
-  let rows = [];
+
+  function handleManualClick() {
+    setAddShipsManually(true);
+  }
+  function handleResetClick() {
+    const newGameBoard = Array.from({ length: 10 }, () => Array.from({ length: 10 }, () => 0));
+    setGameBoard(newGameBoard);
+  }
+
+  function handleCellClick(row, col) {
+    
+    if (addShipsManually) {
+      const newGameBoard = [...gameBoard];
+      newGameBoard[row][col] = 1;
+      setGameBoard(newGameBoard);
+    } 
+  }
+
+  const rows = [];
   for (let i = 0; i < 10; i++) {
-    let cells = [];
+    const cells = [];
     for (let j = 0; j < 10; j++) {
       cells.push(
         <Casilla
           key={`${i},${j}`}
           status={gameBoard[i][j]}
-          handleClick={() => fire(i, j)}
+          handleClick={() => handleCellClick(i, j)}
         />
       );
     }
     rows.push(<div key={i} className="row">{cells}</div>);
   }
   return <><div className="board">{rows}
+  
 
+  
 
   </div>
+  <button className="contador "style={{"--clr":"#1e9bff"}} type="button" onClick={handleManualClick} ><span><i></i>Random Position</span></button>
+  <button id="start-btn" onClick={startGame}>Iniciar Juego</button>
+  <button onClick={handleResetClick}>Reset</button>
 
 
   </>
