@@ -119,3 +119,12 @@
   width: 20px;
   left: 80%;
 }
+.dbtablero{
+  display:flex;
+  justify-content: space-between;
+}
+.buttons{
+  background-color: #075310;
+  display: flex;
+  justify-content: space-between;
+}

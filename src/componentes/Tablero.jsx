@@ -4,7 +4,7 @@ import Casilla from './Casilla.jsx'
 import '../style/tablero.css'
 
 function Tablero() {
-  //-//-// Iniciamos con la funcion declarando su estado
+  //-//-// Iniciamos con la funcion declarando su estado en este estado tenemos el estado inicial ,y un estado ramdon que puede cambiar con un boton
   const [gameBoard, setGameBoard] = useState(
     [[1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -17,8 +17,8 @@ function Tablero() {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [1, 1, 1, 1, 0, 0, 0, 0, 0, 0]],
     generateRandomBoard());
-  const [addShipsManually, setAddShipsManually] = useState(false)
-  const [gameStarted, setGameStarted] = useState(false);
+  const [addShipsManually, setAddShipsManually] = useState(false) // Estado agrega manualmente las posiciones del barco 
+  const [gameStarted, setGameStarted] = useState(false); // Estado para indicar el inicio de partida
   const [selectedCell, setSelectedCell] = useState(null);
 
   // funcion fire
@@ -36,11 +36,12 @@ function Tablero() {
       } else if (gameBoard[row][col] === 0) {
         newGameBoard[row][col] = 3;
         alert("Tiro Errado")
-        setTimeout(cpuTurn, 100); // Llamamos a la función cpuTurn después de un segundo
+        setTimeout(cpuTurn, 1000); // Llamamos a la función cpuTurn después de un segundo
       }
       setGameBoard(newGameBoard);
     }
   }
+  // funcion que permite cpu dispare aleatoria
   function cpuTurn() {
 
     let newGameBoard = [...gameBoard];
@@ -49,6 +50,7 @@ function Tablero() {
     do {
       randomRow = Math.floor(Math.random() * 10);
       randomCol = Math.floor(Math.random() * 10);
+      alert("La cpu ya ha disparado es tu turno")
     } while (newGameBoard[randomRow][randomCol] === 2 || newGameBoard[randomRow][randomCol] === 3);
 
     if (newGameBoard[randomRow][randomCol] === 1) {
@@ -89,15 +91,16 @@ function Tablero() {
   /* function handleRandomClick() {
     setGameBoard(generateRandomBoard());
   } */
-
+// con esta funcion la llamamos en un botton para permitirnos editar las posiciones del barco a nuestra voluntad
   function handleManualClick() {
     setAddShipsManually(true);
   }
+  // con esta funcion elimino las casillas las dejo en  0
   function handleResetClick() {
     const newGameBoard = Array.from({ length: 10 }, () => Array.from({ length: 10 }, () => 0));
     setGameBoard(newGameBoard);
   }
-
+// funcion seleccion de posiciones de barco 
   function handleCellClick(row, col) {
     if (addShipsManually && !gameStarted) {
       const newGameBoard = [...gameBoard];
@@ -105,10 +108,27 @@ function Tablero() {
       setGameBoard(newGameBoard);
     }
   }
+  // Funcion inicia partida 
   function startGame() {
     setGameStarted(true);
   }
-
+  const celln = [];
+  for (let i = 0; i < 10; i++) {
+    const cells = [];
+    for (let j = 0; j < 10; j++) {
+      cells.push(
+        <Casilla
+          key={`${i},${j}`}
+          status={gameBoard[i][j]}
+          
+          handleClick={() => handleCellClick(i, j)}
+          
+        />
+        
+      );
+    }
+    celln.push(<div key={i} className="row">{cells}</div>);
+  }
 
   const rows = [];
   for (let i = 0; i < 10; i++) {
@@ -118,10 +138,11 @@ function Tablero() {
         <Casilla
           key={`${i},${j}`}
           status={gameBoard[i][j]}
-          onClick={() => fire(i, j)}
-          handleClick={() => handleCellClick(i, j)}
+          
+          handleClick={() => fire(i, j)}
           
         />
+        
       );
     }
     rows.push(<div key={i} className="row">{cells}</div>);
@@ -129,13 +150,23 @@ function Tablero() {
 
   return (
     <>
-      <div className="board">{rows}</div>
+      <div className='dbtablero'>
+      <div className="#">
+      <h1 className="text">Battleship</h1>
+      <div className="board">{rows}</div></div>
+      <br/>
+      <div className="game">
+      <h1 className="text">Tablero de posiciones</h1>
+      <div className="board">{celln}</div></div>
+      </div>
+      <br/>
       {!gameStarted && (
+        
         <div className="buttons">
-          <button onClick={handleManualClick}>Colocar barcos manualmente</button>
-          <button onClick={() => setGameBoard(generateRandomBoard())}>Colocar barcos aleatoriamente</button>
-          <button onClick={handleResetClick}>Resetear tablero</button>
-          <button onClick={startGame}>Empezar juego</button>
+          <button className='btnship' onClick={handleManualClick}>Colocar barcos manualmente</button>
+          <button className='btnship' onClick={() => setGameBoard(generateRandomBoard())}>Colocar barcos aleatoriamente</button>
+          <button className='btnship' onClick={handleResetClick}>Resetear tablero</button>
+          <button className='btnship' onClick={startGame}>Empezar juego</button>
         </div>
       )}
       {addShipsManually && !gameStarted && (
