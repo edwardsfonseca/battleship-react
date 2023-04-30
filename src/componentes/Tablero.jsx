@@ -19,8 +19,7 @@ function Tablero() {
     generateRandomBoard());
   const [addShipsManually, setAddShipsManually] = useState(false) // Estado agrega manualmente las posiciones del barco 
   const [gameStarted, setGameStarted] = useState(false); // Estado para indicar el inicio de partida
-  const [selectedCell, setSelectedCell] = useState(null);
-
+  
   // funcion fire
 
   function fire(row, col) {
